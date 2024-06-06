@@ -1,0 +1,6 @@
+@ChargeMe.BackEnd_HostAddress = http://localhost:5182
+
+GET {{ChargeMe.BackEnd_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
