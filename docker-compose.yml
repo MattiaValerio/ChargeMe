@@ -1,18 +1,29 @@
 services:
-  postgres:
+  chargeme.backend:
+    image: ${DOCKER_REGISTRY-}chargemebackend
+    container_name: chargeme.backend
+    build:
+      context: .
+      dockerfile: ChargeMe.BackEnd/Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - chargeme.database
+
+  chargeme.database:
     image: postgres:latest
     hostname: postgres
-    container_name: postgres
+    container_name: chargeme.database
     environment:
+      POSTGRES_DB: chargemedb
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: chargemedb
     ports:
       - "5432:5432"
 
   pgadmin:
     depends_on:
-      - postgres
+      - chargeme.database
     image: dpage/pgadmin4:latest
     hostname: pgadmin
     container_name: pgadmin

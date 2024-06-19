@@ -1,4 +1,5 @@
 using ChargeMe.BackEnd.Data;
+using ChargeMe.BackEnd.lib;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,8 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<DataContext>();
 
 var app = builder.Build();
+
+DatabaseManager.MigrateDatabase(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
