@@ -1,22 +1,15 @@
-# pull official base image
-FROM node:latest
+FROM node:lts-alpine
 
 # set working directory
 WORKDIR /app
+COPY package*.json .
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+RUN npm install --silent
 
-# install app dependencies
-COPY . . 
+COPY . .
 
-RUN npm install 
-RUN npm install react-scripts@3.4.1 -g --silent
+RUN npm run build
 
-# add app
-#COPY . ./
+EXPOSE 3000
 
-EXPOSE 8080
-
-# start app
-CMD ["npm", "start"]
+CMD [ "npm", "run", "preview" ]
