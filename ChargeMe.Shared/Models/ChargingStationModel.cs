@@ -20,7 +20,32 @@ public class ChargingStation
 
 public enum ChargingStationStatus
 {
-    Available,
-    Occupied,
-    OutOfService
+    Available = 0,
+    Occupied = 1,
+    OutOfService = 2
 }
+
+public record GetChargingStation(
+    int Id,
+    string Name,
+    ChargingStationStatus Status,
+    string City,
+    string Address,
+    string State,
+    string ZipCode,
+    double Latitude,
+    double Longitude,
+    GetCarId? ChargingCar
+    );
+
+public record InsertChargingStation(
+    string Name,
+    ChargingStationStatus Status,
+    string City,
+    string Address,
+    string State,
+    string ZipCode,
+    double Latitude,
+    double Longitude,
+    Car? ChargingCarId
+    );
