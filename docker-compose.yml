@@ -1,4 +1,15 @@
 services:
+  chargeme.frontend:
+    image: ${DOCKER_REGISTRY-}chargemefrontend
+    container_name: chargeme.frontend
+    build:
+      context: .
+      dockerfile: chargeme.frontend/Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - chargeme.backend
+
   chargeme.backend:
     image: ${DOCKER_REGISTRY-}chargemebackend
     container_name: chargeme.backend

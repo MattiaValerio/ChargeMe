@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChargeMe.Shared", "ChargeMe
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8B094802-B8F8-4CB3-BE39-CC4352711F69}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "chargeme.frontend", "ChargeMe.FrontEnd\chargeme.frontend.esproj", "{5DF0854C-76A9-4EE6-9191-8972F3B5D02C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{8B094802-B8F8-4CB3-BE39-CC4352711F69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B094802-B8F8-4CB3-BE39-CC4352711F69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B094802-B8F8-4CB3-BE39-CC4352711F69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DF0854C-76A9-4EE6-9191-8972F3B5D02C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DF0854C-76A9-4EE6-9191-8972F3B5D02C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DF0854C-76A9-4EE6-9191-8972F3B5D02C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{5DF0854C-76A9-4EE6-9191-8972F3B5D02C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DF0854C-76A9-4EE6-9191-8972F3B5D02C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DF0854C-76A9-4EE6-9191-8972F3B5D02C}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
