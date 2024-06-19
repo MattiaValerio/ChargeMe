@@ -14,3 +14,26 @@ public class Car
     public string LicensePlate { get; set; } = string.Empty;
     public required Guid Owner { get; set; }
 }
+
+public record GetCar(
+    int Id, 
+    string Brand,
+    string Model,  
+    string Year,
+    string LicencePlate,
+    string Dicriminator
+    );
+
+public record GetCarId(
+    int Id
+    );
+
+
+public record InsertCar(
+    string Brand,
+    string Model,
+    string Year,
+    string LicensePlate,
+    string Discriminator
+    );
+    

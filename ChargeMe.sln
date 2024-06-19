@@ -5,8 +5,6 @@ VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChargeMe.BackEnd", "ChargeMe.BackEnd\ChargeMe.BackEnd.csproj", "{92CD67F4-FC95-4C63-AB50-725884523DDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChargeMe.FrontEnd", "ChargeMe.FrontEnd\ChargeMe.FrontEnd.csproj", "{12A803D8-25FE-482B-AC64-2631823C9206}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChargeMe.Shared", "ChargeMe.Shared\ChargeMe.Shared.csproj", "{8049E36D-F929-4144-A005-789831917C64}"
 EndProject
 Global
@@ -19,10 +17,6 @@ Global
 		{92CD67F4-FC95-4C63-AB50-725884523DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92CD67F4-FC95-4C63-AB50-725884523DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92CD67F4-FC95-4C63-AB50-725884523DDE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{12A803D8-25FE-482B-AC64-2631823C9206}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12A803D8-25FE-482B-AC64-2631823C9206}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12A803D8-25FE-482B-AC64-2631823C9206}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12A803D8-25FE-482B-AC64-2631823C9206}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8049E36D-F929-4144-A005-789831917C64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8049E36D-F929-4144-A005-789831917C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8049E36D-F929-4144-A005-789831917C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,5 +27,7 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0DA6AF3-5564-4582-872E-1F8E6FBFDD6B}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
