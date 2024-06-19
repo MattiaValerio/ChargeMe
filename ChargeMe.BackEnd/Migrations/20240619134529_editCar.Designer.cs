@@ -3,6 +3,7 @@ using System;
 using ChargeMe.BackEnd.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ChargeMe.BackEnd.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240619134529_editCar")]
+    partial class editCar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,40 +61,6 @@ namespace ChargeMe.BackEnd.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Car");
 
                     b.UseTphMappingStrategy();
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Brand = "Tesla",
-                            LicensePlate = "AB123CD",
-                            Model = "Model S",
-                            Year = ""
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Brand = "Tesla",
-                            LicensePlate = "EF456GH",
-                            Model = "Model 3",
-                            Year = ""
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Brand = "Tesla",
-                            LicensePlate = "IJ789KL",
-                            Model = "Model X",
-                            Year = ""
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Brand = "Tesla",
-                            LicensePlate = "MN012OP",
-                            Model = "Model Y",
-                            Year = ""
-                        });
                 });
 
             modelBuilder.Entity("ChargeMe.Shared.Models.ChargingStation", b =>

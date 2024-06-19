@@ -7,6 +7,7 @@
     <ProjectGuid>8b094802-b8f8-4cb3-be39-cc4352711f69</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
+    <!--<DockerServiceUrl>https://localhost:5000</DockerServiceUrl>-->
     <DockerServiceName>chargeme.backend</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>

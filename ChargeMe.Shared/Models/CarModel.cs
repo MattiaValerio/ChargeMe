@@ -12,7 +12,6 @@ public class Car
     public string Model { get; set; } = string.Empty;
     public string Year { get; set; } = string.Empty;
     public string LicensePlate { get; set; } = string.Empty;
-    public required Guid Owner { get; set; }
 }
 
 public record GetCar(

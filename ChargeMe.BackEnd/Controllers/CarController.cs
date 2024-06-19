@@ -80,8 +80,7 @@ public class CarController : ControllerBase
                 Brand = reader.GetString(reader.GetOrdinal("Brand")),
                 Model = reader.GetString(reader.GetOrdinal("Model")),
                 Year = reader.GetString(reader.GetOrdinal("Year")),
-                LicensePlate = reader.GetString(reader.GetOrdinal("LicensePlate")),
-                Owner = reader.GetGuid(reader.GetOrdinal("Owner"))
+                LicensePlate = reader.GetString(reader.GetOrdinal("LicensePlate"))
             };
 
             return Ok(car);

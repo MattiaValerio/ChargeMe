@@ -27,6 +27,13 @@ public class DataContext : IdentityDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Car>().HasData(
+            new Car { Id = 1, Brand = "Tesla", Model = "Model S", LicensePlate = "AB123CD" },
+            new Car { Id = 2, Brand = "Tesla", Model = "Model 3", LicensePlate = "EF456GH" },
+            new Car { Id = 3, Brand = "Tesla", Model = "Model X", LicensePlate = "IJ789KL" },
+            new Car { Id = 4, Brand = "Tesla", Model = "Model Y", LicensePlate = "MN012OP" }
+            );
+
         base.OnModelCreating(modelBuilder);
     }
 }
