@@ -3,6 +3,8 @@ using ChargeMe.BackEnd.Services.CarServices;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using ChargeMe.Shared.Models;
+using ChargeMe.BackEnd.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChargeMe.BackEnd.Controllers;
 
@@ -11,142 +13,100 @@ namespace ChargeMe.BackEnd.Controllers;
 [ApiController]
 public class CarController : ControllerBase
 {
-    private readonly IConfiguration _configuration;
-    private readonly string _connectionString;
+    private readonly DataContext _context;
 
-    public CarController(IConfiguration configuration)
+    public CarController(DataContext context)
     {
-        _configuration = configuration;
-        _connectionString = _configuration.GetConnectionString("DefaultConnection");
+        _context = context;
     }
     
     // GET
     [HttpGet("GetAllCar")]
     public async Task<IActionResult> GetAllCars()
     {
-        List<GetCar> getcars = new List<GetCar>();
-
-        const string query = """
-                                SELECT "Id", "Brand", "Model", "Year", "LicensePlate", "Discriminator" 
-                                FROM public."Cars"
-                             """;
-        using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        using var cmd = new NpgsqlCommand(query, connection);
-
-        using var reader = await cmd.ExecuteReaderAsync();
-
-        while (await reader.ReadAsync())
+        try
         {
-            var car = new GetCar(
-                reader.GetInt32(reader.GetOrdinal("Id")), // Ensure the case matches exactly
-                reader.GetString(reader.GetOrdinal("Brand")),
-                reader.GetString(reader.GetOrdinal("Model")),
-                reader.GetString(reader.GetOrdinal("Year")),
-                reader.GetString(reader.GetOrdinal("LicensePlate")), // Corrected to match the SQL query
-                reader.GetString(reader.GetOrdinal("Discriminator"))
-            );
-        
-            getcars.Add(car);
-        }
+            var cars = await _context.Cars.ToListAsync();
 
-        return Ok(getcars);
+            return Ok(cars);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
     
     // GET by ID
     [HttpGet("GetCarById/{id}")]
-    public async Task<IActionResult> GetCarById(int id)
-    {
-        const string query = """
-            SELECT "Id", "Brand", "Model", "Year", "LicensePlate", "Owner"
-            FROM public."Cars"
-            WHERE "Id" = @Id
-        """;
-
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        await using var cmd = new NpgsqlCommand(query, connection);
-        cmd.Parameters.AddWithValue("@Id", id);
-
-        await using var reader = await cmd.ExecuteReaderAsync();
-
-        if (await reader.ReadAsync())
-        {
-            var car = new Car
-            {
-                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                Brand = reader.GetString(reader.GetOrdinal("Brand")),
-                Model = reader.GetString(reader.GetOrdinal("Model")),
-                Year = reader.GetString(reader.GetOrdinal("Year")),
-                LicensePlate = reader.GetString(reader.GetOrdinal("LicensePlate"))
-            };
-
-            return Ok(car);
-        }
-
-        return NotFound(); // Return 404 if the car is not found
-    }
-    
-    
-    // POST 
-    [HttpPost("InsertCar")]
-    public async Task<IActionResult> InsertCar([FromBody] InsertCar car)
+    public async Task<ActionResult> GetCarById(int id)
     {
         try
         {
-            await using var connection = new NpgsqlConnection(_connectionString);
-            await connection.OpenAsync();
+            var car = await _context.Cars.FindAsync(id);
 
-            // Esegui le operazioni con il database qui
-            var cmd = new NpgsqlCommand("""
-                            INSERT INTO public."Cars" ("Brand", "Model", "Year", "LicensePlate", "Discriminator") 
-                            VALUES (@brand, @model, @year, @licenseplate, @discriminator)
-                        """, connection);
-            
-            cmd.Parameters.AddWithValue("brand", car.Brand);
-            cmd.Parameters.AddWithValue("model", car.Model);
-            cmd.Parameters.AddWithValue("year", car.Year);
-            cmd.Parameters.AddWithValue("licenseplate", car.LicensePlate);
-            cmd.Parameters.AddWithValue("discriminator", car.Discriminator);
-            
-            await cmd.ExecuteNonQueryAsync();
+            if (car == null)
+            {
+                return NotFound("Macchina non trovata");
+            }
+
+            return Ok(car);
+        }catch(Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+    
+    
+    [HttpPost("InsertCar")]
+    public async Task<ActionResult<Car>> InsertCar(Car car)
+    {
+        try
+        {
+            // check della targa
+            var plateCheck = await _context.Cars.FirstOrDefaultAsync(c => c.LicensePlate == car.LicensePlate);
+
+            if(plateCheck != null)
+            {
+                return BadRequest("Macchina gia registrata");
+            }
+
+            _context.Cars.Add(car);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
         catch (Exception ex)
         {
             // Gestisci l'eccezione qui
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
-
-        return Ok();
     }
     
     // DELETE 
     [HttpDelete("DeleteCar")]
     public async Task<IActionResult> DeleteCar(int id)
     {
-        const string query = """
-                                DELETE FROM public."Cars" 
-                                WHERE "Id" = @Id
-                             """;
-
-        using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        using var cmd = new NpgsqlCommand(query, connection);
-        cmd.Parameters.AddWithValue("Id", id);
-
-        int affectedRows = await cmd.ExecuteNonQueryAsync();
-
-        if (affectedRows > 0)
+        try
         {
-            return Ok(new { message = "Car deleted successfully." });
+            var car = await _context.Cars.FindAsync(id);
+
+            if (car == null)
+            {
+                return NotFound("Macchina non trovata");
+            }
+
+            _context.Cars.Remove(car);
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Macchina eliminata");
         }
-        else
+        catch(Exception ex)
         {
-            return NotFound(new { message = "Car not found." });
+            return StatusCode(500, $"Internal server error: {ex.Message}");
         }
+        
     }
     
 }

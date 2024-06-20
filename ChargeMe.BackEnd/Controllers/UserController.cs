@@ -25,7 +25,7 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Route("register")]
-    public async Task<IActionResult> Post(string email, string password, string city, string address, string firstName, string lastName)
+    public async Task<ActionResult> Post(string email, string password, string city, string address, string firstName, string lastName)
     {
         try
         {
