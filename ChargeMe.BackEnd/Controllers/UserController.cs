@@ -46,6 +46,5 @@ public class UserController : ControllerBase
         {
             return BadRequest(e.Message);
         }
-
     }
 }
