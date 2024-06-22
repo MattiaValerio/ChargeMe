@@ -25,6 +25,13 @@ const App: React.FC = () => {
         }
       />
       <Route
+        path="/home"
+        element={
+
+          <Home />
+        }
+      />
+      <Route
         path="/charging-station"
         element={
           <PrivateRoute isAuthenticated={isAuthenticated}>
@@ -32,6 +39,7 @@ const App: React.FC = () => {
           </PrivateRoute>
         }
       />
+
     </Routes>
   );
 };
