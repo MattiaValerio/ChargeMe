@@ -52,7 +52,7 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Route("register")]
-    public async Task<ActionResult> Register(string json)
+    public async Task<ActionResult> Register([FromBody]string json)
     {
         try
         {
