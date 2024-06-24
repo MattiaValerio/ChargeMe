@@ -1,14 +1,14 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/',
+  base: "/",
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   preview: {
@@ -19,6 +19,6 @@ export default defineConfig({
     port: 3000,
     strictPort: true,
     host: true,
-    origin: 'http://localhost:8080',
+    origin: "http://localhost:80",
   },
 });
