@@ -52,13 +52,13 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Route("register")]
-    public async Task<ActionResult> Register([FromBody]string json)
+    public async Task<ActionResult> Register([FromBody]UserDto json)
     {
         try
         {
             Console.WriteLine(json  );
 
-            var userdto = JsonSerializer.Deserialize<UserDto>(json);
+            var userdto = json;
             
 
             var regUser = new User { Email = userdto.email, City = userdto.city, Address = userdto.address, UserName = userdto.email, FirstName = userdto.firstName, LastName = userdto.lastName };
