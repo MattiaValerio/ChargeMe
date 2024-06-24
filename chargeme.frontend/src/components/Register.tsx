@@ -38,7 +38,7 @@ const Register: React.FC = () => {
     };
 
     // fecth the object to the backend
-    fetch("chargeme.backend:5000/api/register", {
+    fetch("http://localhost:5000/api/register", {
       method: "POST",
       body: JSON.stringify(person),
       headers: {
