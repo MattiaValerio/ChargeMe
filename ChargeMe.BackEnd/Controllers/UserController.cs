@@ -56,7 +56,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            Console.WriteLine(json  );
+            Console.WriteLine(json);
 
             var userdto = json;
             
