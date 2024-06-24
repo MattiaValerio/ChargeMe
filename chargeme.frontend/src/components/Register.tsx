@@ -37,6 +37,8 @@ const Register: React.FC = () => {
       address: values.address,
     };
 
+    console.log(JSON.stringify(person));
+
     // fecth the object to the backend
     fetch("http://mattiavalerio.info:5000/api/register", {
       method: "POST",
