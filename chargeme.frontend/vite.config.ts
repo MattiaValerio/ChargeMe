@@ -16,9 +16,9 @@ export default defineConfig({
     strictPort: true,
   },
   server: {
-    port: 3000,
+    port: 80,
     strictPort: true,
     host: true,
-    origin: "http://localhost:80",
+    origin: "http://mattiavalerio.info:80",
   },
 });
