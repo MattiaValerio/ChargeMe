@@ -56,6 +56,8 @@ public class UserController : ControllerBase
     {
         try
         {
+            Console.WriteLine(json  );
+
             var userdto = JsonSerializer.Deserialize<UserDto>(json);
             
 
