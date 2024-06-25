@@ -6,12 +6,10 @@ namespace ChargeMe.BackEnd.Data;
 
 public class DataContext : IdentityDbContext
 {
-    private DbContextOptions<DataContext> _options;
     private IConfiguration _conf;
 
     public DataContext(DbContextOptions<DataContext> options, IConfiguration configuration) : base(options)
     {
-        _options = options;
         _conf = configuration; //leggiamo la string di connessione al DB
     }
 

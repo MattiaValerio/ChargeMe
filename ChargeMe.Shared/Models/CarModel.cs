@@ -27,12 +27,4 @@ public record GetCarId(
     int Id
     );
 
-
-public record InsertCar(
-    string Brand,
-    string Model,
-    string Year,
-    string LicensePlate,
-    string Discriminator
-    );
     
