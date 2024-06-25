@@ -1,10 +1,10 @@
-FROM node:lts-alpine
+FROM node:18.20.2-alpine
 
 # set working directory
 WORKDIR /app
-COPY package*.json .
+COPY package*.json ./
 
-RUN npm install --silent
+RUN npm install --no-audit
 
 COPY . .
 
