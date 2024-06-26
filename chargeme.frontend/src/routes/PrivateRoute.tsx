@@ -1,4 +1,3 @@
-// src/routes/PrivateRoute.tsx
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
@@ -11,7 +10,11 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   isAuthenticated,
   children,
 }) => {
-  return isAuthenticated ? <>{children}</> : <Navigate to="/auth" />;
+  if (!isAuthenticated) {
+    return <Navigate to="/auth" />;
+  }
+
+  return <>{children}</>;
 };
 
 export default PrivateRoute;

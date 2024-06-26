@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Login from '../components/login';
-import Register from '../components/Register';
+import Login from '../components/Auth/login';
+import Register from '../components/Auth/Register';
 
 const Auth: React.FC = () => {
   return (
