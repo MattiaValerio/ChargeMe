@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   CarFront,
@@ -10,6 +11,11 @@ import {
   Menu,
   Search,
 } from 'lucide-react';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
 import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet';
 import { Button } from '../ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,11 +29,21 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode,
 }
+
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
+
+  // const [initial, setInitial] = useState<string>('')
+
+  //   useEffect(() => {
+  //       const firstLetterName = name ? name.charAt(0).toUpperCase() : ''
+  //       const firstLetterSurname = surname ? surname.charAt(0).toUpperCase() : ''
+
+  //       setInitial(firstLetterName + firstLetterSurname)
+  //   }, [])
 
   const navLinks = [
     {
@@ -129,8 +145,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   variant="secondary"
                   size="icon"
                   className="rounded-full">
-                  <CircleUser className="h-5 w-5" />
-                  <span className="sr-only">Toggle user menu</span>
+                  {/* <CircleUser className="h-5 w-5" /> */}
+                  {/* <span className="sr-only">Toggle user menu</span> */}
+                  <Avatar>
+                    <AvatarImage alt="@shadcn" />
+                    <AvatarFallback>EP</AvatarFallback> 
+                  </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -144,7 +164,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </DropdownMenu>
           </div>
         </header>
-        <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
+        <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 md:gap-8 md:p-10">
           {children}
         </main>
       </div>

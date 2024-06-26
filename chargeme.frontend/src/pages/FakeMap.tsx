@@ -1,7 +1,8 @@
 import React from 'react';
+import MapComponent from '@/components/MapComponent';
 
-const FakeMap: React.FC = () => {
-  return <div>FakeMap Page</div>;
+const Map: React.FC = () => {
+  return <div> <MapComponent/></div>;
 };
 
-export default FakeMap;
+export default Map;
