@@ -1,14 +1,16 @@
-// src/App.tsx
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
-import ChargingStation from '../pages/ChargingStation';
-import Home from '../pages/Home';
-import Auth from '@/pages/Auth';
-// import Home from './pages/Home';
+import Dashboard from '../pages/Dashboard';
+import Auth from '../pages/Auth';
+import Layout from '../components/Layout/Layout';
+import FakeMap from '@/pages/FakeMap';
+import Vehicle from '@/pages/Vehicle';
+import Wallet from '@/pages/Wallet';
+import Analytics from '@/pages/Analytics';
 
 const App: React.FC = () => {
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   return (
     <Routes>
@@ -17,29 +19,55 @@ const App: React.FC = () => {
 
       {/* Rotte protette */}
       <Route
-        path="/"
+        path="/dashboard"
         element={
           <PrivateRoute isAuthenticated={isAuthenticated}>
-            <Home />
+            <Layout>
+              <Dashboard />
+            </Layout>
           </PrivateRoute>
         }
       />
       <Route
-        path="/home"
-        element={
-
-          <Home />
-        }
-      />
-      <Route
-        path="/charging-station"
+        path="/map"
         element={
           <PrivateRoute isAuthenticated={isAuthenticated}>
-            <ChargingStation />
+            <Layout>
+              <FakeMap />
+            </Layout>
           </PrivateRoute>
         }
       />
-
+      <Route
+        path="/vehicle"
+        element={
+          <PrivateRoute isAuthenticated={isAuthenticated}>
+            <Layout>
+              <Vehicle />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/wallet"
+        element={
+          <PrivateRoute isAuthenticated={isAuthenticated}>
+            <Layout>
+              <Wallet />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/analytics"
+        element={
+          <PrivateRoute isAuthenticated={isAuthenticated}>
+            <Layout>
+              <Analytics />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 };
