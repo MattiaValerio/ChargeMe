@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ChargeMe.Shared.Models;
 
@@ -12,6 +11,7 @@ public class Car
     public string Model { get; set; } = string.Empty;
     public string Year { get; set; } = string.Empty;
     public string LicensePlate { get; set; } = string.Empty;
+    public Guid Owner { get; set; }
 }
 
 public record GetCar(
@@ -27,12 +27,4 @@ public record GetCarId(
     int Id
     );
 
-
-public record InsertCar(
-    string Brand,
-    string Model,
-    string Year,
-    string LicensePlate,
-    string Discriminator
-    );
     

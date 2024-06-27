@@ -6,12 +6,10 @@ namespace ChargeMe.BackEnd.Data;
 
 public class DataContext : IdentityDbContext
 {
-    private DbContextOptions<DataContext> _options;
     private IConfiguration _conf;
 
     public DataContext(DbContextOptions<DataContext> options, IConfiguration configuration) : base(options)
     {
-        _options = options;
         _conf = configuration; //leggiamo la string di connessione al DB
     }
 
@@ -22,8 +20,9 @@ public class DataContext : IdentityDbContext
     }
 
     public DbSet<ChargingStation> ChargingStations { get; set; }
-    public DbSet<Charging> Chargings { get; set; }
+    // public DbSet<Charging> Chargings { get; set; }
     public DbSet<Car> Cars { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

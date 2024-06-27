@@ -27,7 +27,7 @@ public class ChargingController : Controller
     
     // POST 
     [HttpPost("InsertCharging")]
-    public async Task<IActionResult> InsertCharging([FromBody] InsertCar car)
+    public async Task<IActionResult> InsertCharging([FromBody] Car car)
     {
         
         return Ok();
