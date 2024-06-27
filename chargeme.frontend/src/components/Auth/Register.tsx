@@ -38,17 +38,6 @@ const Register: React.FC = () => {
     };
 
     console.log(JSON.stringify(person));
-
-    // fecth the object to the backend
-    fetch("http://mattiavalerio.info:5000/api/register", {
-      method: "POST",
-      body: JSON.stringify(person),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json));
   };
 
   return (
