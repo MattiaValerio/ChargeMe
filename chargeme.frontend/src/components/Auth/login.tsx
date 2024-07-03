@@ -13,9 +13,11 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -25,12 +27,16 @@ const Login: React.FC = () => {
     defaultValues: {
       email: '',
       password: '',
-      acceptTerms: false,
     },
   });
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     console.log(values);
+    routeChange('/dashboard');
+  };
+
+  const routeChange = (route: string) => {
+    navigate(route);
   };
 
   return (
@@ -55,22 +61,6 @@ const Login: React.FC = () => {
             {errors.password && (
               <p className="error-message">{errors.password.message}</p>
             )}
-          </div>
-          <div className="items-top flex space-x-2">
-            <Checkbox id="acceptTerms" {...register('acceptTerms')} />
-            <div className="grid gap-1.5 leading-none">
-              <label
-                htmlFor="acceptTerms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Accept terms and conditions
-              </label>
-              <p className="text-sm text-muted-foreground">
-                You agree to our Terms of Service and Privacy Policy.
-              </p>
-              {errors.acceptTerms && (
-                <p className="error-message">{errors.acceptTerms.message}</p>
-              )}
-            </div>
           </div>
         </CardContent>
         <CardFooter>

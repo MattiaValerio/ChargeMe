@@ -1,21 +1,26 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import Dashboard from '../pages/Dashboard';
 import Auth from '../pages/Auth';
 import Layout from '../components/Layout/Layout';
-import FakeMap from '@/pages/FakeMap';
+import Map from '@/pages/Map';
 import Vehicle from '@/pages/Vehicle';
 import Wallet from '@/pages/Wallet';
 import Analytics from '@/pages/Analytics';
+import RegistrationConfirm from '@/pages/RegistrationConfirm';
 
 const App: React.FC = () => {
   const isAuthenticated = true;
 
   return (
     <Routes>
+      {/* Rotta di default che reindirizza a /auth */}
+      <Route path="/" element={<Navigate to="/auth" />} />
+
       {/* Rotte pubbliche */}
       <Route path="/auth" element={<Auth />} />
+      <Route path="/auth/register-confirm" element={<RegistrationConfirm />} />
 
       {/* Rotte protette */}
       <Route
@@ -33,7 +38,7 @@ const App: React.FC = () => {
         element={
           <PrivateRoute isAuthenticated={isAuthenticated}>
             <Layout>
-              <FakeMap />
+              <Map />
             </Layout>
           </PrivateRoute>
         }

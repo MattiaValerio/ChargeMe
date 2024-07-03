@@ -7,8 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@radix-ui/react-label';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -27,7 +30,22 @@ const Register: React.FC = () => {
   });
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    console.log(values);
+    // create an object with all the values and fetch it to the backend
+    const person = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.password,
+      city: values.city,
+      address: values.address,
+    };
+
+    console.log(JSON.stringify(person));
+    routeChange('register-confirm'); // Naviga alla pagina di conferma con il tab giusto selezionato
+  };
+
+  const routeChange = (route: string) => {
+    navigate(route);
   };
 
   return (
