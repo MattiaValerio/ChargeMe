@@ -25,45 +25,65 @@ const MapComponent: React.FC = () => {
 
   const colonnine = [
     {
-      latitudine: 45.957775,
-      longitudine: 12.660396,
+      "latitudine": 45.957775,
+      "longitudine": 12.660396,
+      "nome": "Mario",
+      "cognome": "Rossi"
     },
     {
-      latitudine: 45.965,
-      longitudine: 12.641111,
+      "latitudine": 45.965000,
+      "longitudine": 12.641111,
+      "nome": "Luca",
+      "cognome": "Bianchi"
     },
     {
-      latitudine: 45.972222,
-      longitudine: 12.635833,
+      "latitudine": 45.972222,
+      "longitudine": 12.635833,
+      "nome": "Giovanni",
+      "cognome": "Verdi"
     },
     {
-      latitudine: 45.98,
-      longitudine: 12.649444,
+      "latitudine": 45.980000,
+      "longitudine": 12.649444,
+      "nome": "Anna",
+      "cognome": "Neri"
     },
     {
-      latitudine: 45.987222,
-      longitudine: 12.663056,
+      "latitudine": 45.987222,
+      "longitudine": 12.663056,
+      "nome": "Sara",
+      "cognome": "Gialli"
     },
     {
-      latitudine: 45.995,
-      longitudine: 12.676667,
+      "latitudine": 45.995000,
+      "longitudine": 12.676667,
+      "nome": "Paolo",
+      "cognome": "Blu"
     },
     {
-      latitudine: 46.002222,
-      longitudine: 12.690278,
+      "latitudine": 46.002222,
+      "longitudine": 12.690278,
+      "nome": "Lucia",
+      "cognome": "Arancio"
     },
     {
-      latitudine: 46.009444,
-      longitudine: 12.703889,
+      "latitudine": 46.009444,
+      "longitudine": 12.703889,
+      "nome": "Alessandro",
+      "cognome": "Viola"
     },
     {
-      latitudine: 46.016667,
-      longitudine: 12.7175,
+      "latitudine": 46.016667,
+      "longitudine": 12.717500,
+      "nome": "Elisa",
+      "cognome": "Rosa"
     },
     {
-      latitudine: 46.024444,
-      longitudine: 12.731111,
-    },
+      "latitudine": 46.024444,
+      "longitudine": 12.731111,
+      "nome": "Marco",
+      "cognome": "Marrone"
+    }
   ];
 
   const pinStyle = new Style({
@@ -108,10 +128,7 @@ const MapComponent: React.FC = () => {
 
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-          const userLocation = [
-            position.coords.longitude,
-            position.coords.latitude,
-          ];
+          const userLocation = [position.coords.longitude, position.coords.latitude];
           mapRef.current?.getView().setCenter(userLocation);
 
           const marker = new Feature({
@@ -136,10 +153,11 @@ const MapComponent: React.FC = () => {
       selectClick.on('select', (e) => {
         if (e.selected.length > 0) {
           const feature = e.selected[0];
+          const properties = feature.getProperties();
           const geometry = feature.getGeometry();
           if (geometry instanceof Point) {
             const coordinates = geometry.getCoordinates();
-            const hdms = toLonLat(coordinates);
+            //const hdms = toLonLat(coordinates);
             const popup = new Overlay({
               element: document.getElementById('popup')!,
             });
@@ -151,17 +169,18 @@ const MapComponent: React.FC = () => {
             popup.setPosition(coordinates);
 
             const element = popup.getElement();
-            if (element) {
+            if(element){
               element.innerHTML = `<div class="popover bs-popover-top">
               <div class="arrow"></div>
               <h3 class="popover-header">Marker Info</h3>
               <div class="popover-body">
-                <p>The location you clicked was:</p>
-                <code>${hdms}</code>
+                <p>Nome: ${properties.nome}</p>
+                <p>Cognome: ${properties.cognome}</p>
               </div>
             </div>`;
             }
-
+            
+            
             if (popoverInstance) {
               popoverInstance.dispose();
             }
@@ -200,17 +219,19 @@ const MapComponent: React.FC = () => {
   const fetchPins = async () => {
     try {
       const pins = colonnine;
-      pins.forEach((pin: { latitudine: number; longitudine: number }) => {
-        addMarker([pin.longitudine, pin.latitudine]);
+      pins.forEach((pin: { latitudine: number; longitudine: number; nome: string; cognome: string }) => {
+        addMarker([pin.longitudine, pin.latitudine], pin.nome, pin.cognome);
       });
     } catch (error) {
       console.error('Errore durante il recupero delle coordinate:', error);
     }
   };
 
-  const addMarker = (coordinate: number[]) => {
+  const addMarker = (coordinate: number[], nome: string, cognome: string) => {
     const marker = new Feature({
       geometry: new Point(coordinate),
+      nome: nome,
+      cognome: cognome,
     });
     vectorSource.current.addFeature(marker);
   };

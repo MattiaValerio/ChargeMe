@@ -85,25 +85,15 @@
   position: relative;
 }
 
-.menu {
-  position: absolute;
-  background: white;
-  border: 1px solid #ccc;
-  padding: 10px;
-  display: block;
-  z-index: 1000;
-}
 
 .ol-popup {
   position: relative;
-  background-color: white;
+  width: 10rem;
   -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
   filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
-  padding: 15px;
   border-radius: 10px;
   border: 1px solid #cccccc;
-  transform: translateX(-57%);
-  top:-16rem;
+  transform: translate(-63%, -170%);
 }
 
 .ol-popup:after, .ol-popup:before {
