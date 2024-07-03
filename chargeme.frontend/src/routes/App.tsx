@@ -34,6 +34,7 @@ const App: React.FC = () => {
         }
       />
       <Route
+        
         path="/map"
         element={
           <PrivateRoute isAuthenticated={isAuthenticated}>

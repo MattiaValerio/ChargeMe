@@ -1,80 +1,86 @@
 import React, { useEffect, useRef } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import { Tile as TileLayer } from 'ol/layer';
 import { OSM } from 'ol/source';
+import { toLonLat } from 'ol/proj';
 import { Feature } from 'ol';
+import Select from 'ol/interaction/Select';
 import { Point } from 'ol/geom';
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { Style, Icon } from 'ol/style';
 import { useGeographic } from 'ol/proj';
+import { click } from 'ol/events/condition';
+import Overlay from 'ol/Overlay';
 
-const MapComponent = () => {
+const MapComponent: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<Map | null>(null);
   const vectorSource = useRef(new VectorSource());
+  const popupRef = useRef<Overlay | null>(null);
+  let popoverInstance: any = null;
 
   const colonnine = [
     {
-      latitudine: 45.97160235135628,
-      longitudine: 12.615956840396523,
+      latitudine: 45.957775,
+      longitudine: 12.660396,
     },
     {
-      latitudine: 46.00515756259164,
-      longitudine: 12.661798254933393,
-    },
-
-    {
-      latitudine: 45.91427749277099,
-      longitudine: 12.694579786576838,
-    },
-
-    {
-      latitudine: 45.99676270507915,
-      longitudine: 12.633694806262518,
+      latitudine: 45.965,
+      longitudine: 12.641111,
     },
     {
-      latitudine: 45.97716740338718,
-      longitudine: 12.70729099191655,
-    },
-
-    {
-      latitudine: 45.93455553772048,
-      longitudine: 12.681788866972406,
+      latitudine: 45.972222,
+      longitudine: 12.635833,
     },
     {
-      latitudine: 45.96944263015435,
-      longitudine: 12.634872014255915,
-    },
-
-    {
-      latitudine: 45.98338040449174,
-      longitudine: 12.63359497068744,
-    },
-
-    {
-      latitudine: 45.9777174109767,
-      longitudine: 12.618860069978858,
+      latitudine: 45.98,
+      longitudine: 12.649444,
     },
     {
-      latitudine: 45.97155897984618,
-      longitudine: 12.684092982562216,
+      latitudine: 45.987222,
+      longitudine: 12.663056,
+    },
+    {
+      latitudine: 45.995,
+      longitudine: 12.676667,
+    },
+    {
+      latitudine: 46.002222,
+      longitudine: 12.690278,
+    },
+    {
+      latitudine: 46.009444,
+      longitudine: 12.703889,
+    },
+    {
+      latitudine: 46.016667,
+      longitudine: 12.7175,
+    },
+    {
+      latitudine: 46.024444,
+      longitudine: 12.731111,
     },
   ];
 
   const pinStyle = new Style({
     image: new Icon({
       anchor: [0.5, 1],
-      src: '../../public/img/charging.svg', // Inserisci l'URL dell'icona del pin
+      src: '../../public/img/charging.svg',
+      scale: 1,
+      size: [64, 64],
     }),
   });
 
   const userLocationStyle = new Style({
     image: new Icon({
       anchor: [0.5, 1],
-      src: '../../public/img/user.svg', // Inserisci l'URL dell'icona della posizione dell'utente
+      src: '../../public/img/user.svg',
+      scale: 1,
+      size: [64, 64],
     }),
   });
 
@@ -113,25 +119,87 @@ const MapComponent = () => {
           });
 
           marker.setStyle(userLocationStyle);
-
           vectorSource.current.addFeature(marker);
         });
       } else {
         alert('Geolocation non è supportato dal tuo browser.');
       }
+
+      const selectClick = new Select({
+        condition: click,
+        hitTolerance: 10,
+        style: null,
+      });
+
+      initialMap.addInteraction(selectClick);
+
+      selectClick.on('select', (e) => {
+        if (e.selected.length > 0) {
+          const feature = e.selected[0];
+          const geometry = feature.getGeometry();
+          if (geometry instanceof Point) {
+            const coordinates = geometry.getCoordinates();
+            const hdms = toLonLat(coordinates);
+            const popup = new Overlay({
+              element: document.getElementById('popup')!,
+            });
+            if (popupRef.current) {
+              initialMap.removeOverlay(popupRef.current);
+            }
+            popupRef.current = popup;
+            initialMap.addOverlay(popup);
+            popup.setPosition(coordinates);
+
+            const element = popup.getElement();
+            if (element) {
+              element.innerHTML = `<div class="popover bs-popover-top">
+              <div class="arrow"></div>
+              <h3 class="popover-header">Marker Info</h3>
+              <div class="popover-body">
+                <p>The location you clicked was:</p>
+                <code>${hdms}</code>
+              </div>
+            </div>`;
+            }
+
+            if (popoverInstance) {
+              popoverInstance.dispose();
+            }
+            popoverInstance = new (window as any).bootstrap.Popover(element, {
+              animation: false,
+              container: element,
+              html: true,
+              placement: 'top',
+            });
+            popoverInstance.show();
+          }
+        }
+      });
+
+      // Listener globale per chiudere il popup quando si clicca altrove
+      initialMap.on('click', (event) => {
+        if (!initialMap.hasFeatureAtPixel(event.pixel)) {
+          if (popoverInstance) {
+            popoverInstance.dispose();
+            popoverInstance = null;
+          }
+          if (popupRef.current) {
+            popupRef.current.setPosition(undefined);
+          }
+        }
+      });
+
+      fetchPins();
+
+      return () => {
+        mapRef.current?.setTarget('');
+      };
     }
-
-    fetchPins();
-
-    return () => {
-      mapRef.current?.setTarget('');
-    };
   }, []);
 
   const fetchPins = async () => {
     try {
-      //const response = await axios.get('YOUR_API_ENDPOINT');
-      const pins = colonnine; // Supponiamo che l'API restituisca un array di pin con latitudine e longitudine
+      const pins = colonnine;
       pins.forEach((pin: { latitudine: number; longitudine: number }) => {
         addMarker([pin.longitudine, pin.latitudine]);
       });
@@ -144,14 +212,14 @@ const MapComponent = () => {
     const marker = new Feature({
       geometry: new Point(coordinate),
     });
-
     vectorSource.current.addFeature(marker);
   };
 
   return (
-    <React.Fragment>
+    <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
       <div ref={mapElement} style={{ width: '100%', height: '100vh' }} />
-    </React.Fragment>
+      <div id="popup" className="ol-popup"></div>
+    </div>
   );
 };
 
